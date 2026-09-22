@@ -1,0 +1,16 @@
+--- a/c/_cffi_backend.c
++++ b/c/_cffi_backend.c
+@@ -183,5 +183,13 @@
+ #if PY_VERSION_HEX >= 0x03080000
+ # define USE_WRITEUNRAISABLEMSG
+ #endif
++#if PY_VERSION_HEX >= 0x030c0000
++/* _PyErr_WriteUnraisableMsg() was removed from the public C API in CPython 3.12 */
++static void _PyErr_WriteUnraisableMsg(const char *msg, PyObject *obj)
++{
++    PyErr_WriteUnraisable(obj);
++    (void)msg;
++}
++#endif
+ 
+ /************************************************************/
